@@ -7,14 +7,15 @@ import javax.naming.NamingException;
 import util.*;
 
 public class FeedDAO {
-	public boolean insert(String uid, String ucon) throws NamingException, SQLException {
+	public boolean insert(String uid, String ucon, String uimages) throws NamingException, SQLException {
 		Connection conn = ConnectionPool.get();
 		PreparedStatement stmt = null;
 		try {
-			String sql = "INSERT INTO feed(id, content) VALUES(?, ?)";
+			String sql = "INSERT INTO feed(id, content, images) VALUES(?, ?, ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, uid);
 			stmt.setString(2, ucon);
+			stmt.setString(3, uimages);
 			
 			int count = stmt.executeUpdate();
 			return (count == 1) ? true : false;
@@ -36,7 +37,7 @@ public class FeedDAO {
 			
 			ArrayList<FeedObj> feeds = new ArrayList<FeedObj>();
 			while(rs.next()) {
-			feeds.add(new FeedObj(rs.getString("id"), rs.getString("content"), rs.getString("ts")));
+				feeds.add(new FeedObj(rs.getString("id"), rs.getString("content"), rs.getString("ts"), rs.getString("images")));
 			}
 			return feeds;
 		} finally {
