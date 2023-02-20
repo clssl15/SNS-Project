@@ -8,13 +8,13 @@
 	
 	UserDAO dao = new UserDAO();
 	if (dao.exists(uid) == false) {
-		out.print("회원 정보를 찾을 수 없습니다.");
+		out.print("NA");
 		return;
 	}
 	if (dao.delete(uid)) {
-		out.print("회원 탈퇴가 완료되었습니다.");
+		out.print("OK");
 	}
 	else {
-		out.print("회원 탈퇴 처리 중 오류가 발생하였습니다.");
+		out.print("ER");
 	}
 %>

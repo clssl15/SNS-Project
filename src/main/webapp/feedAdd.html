@@ -34,7 +34,6 @@ color: #888;
 </style>
 </head>
 <body>
-<form action="jsp/feedAdd.jsp" method="post" enctype="multipart/form-data">
 	<div class="page-hdr">MySNS</div>
 	<div class="page-body">
 		<div class="section pad-24 mtop-30">
@@ -48,6 +47,50 @@ color: #888;
 		</div>
 	</div>
 	<div class="page-footer">Copyright:mysns.com, 202x</div>
-</form>
 </body>
 </html>
+
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/core.js"></script>
+<script>
+	$(document).ready(function() {
+		Page.init(start);
+	});
+	
+	function start(uid){
+		alert("로그인 아이디: " + uid);
+	}
+
+	function upload() {
+		var id = $("#id").val().trim();
+		if (id == "") {
+			alert("아이디를 입력해 주세요.");
+			$("#id").focus();
+			return;
+		}
+		var content = $("#content").val().trim();
+		if (content == "") {
+			alert("작성글을 입력해 주세요.");
+			$("#content").focus();
+			return;
+		}
+		var imgobj = $("#image")[0].files[0];	
+		var params = new FormData();
+		params.append("id", id);
+		params.append("content", content);
+		if (imgobj != null) {
+			params.append("image", imgobj);
+		}
+		var url = "jsp/feedAdd.jsp";
+		AJAX.call(url, params, function(data) {
+			var code = data.trim();
+			if (code == "ER") {
+				alert("작성 글의 업로드 중 오류가 발생하였습니다.");
+			}
+			else {
+				alert("작성 글의 업로드가 완료되었습니다.");
+				window.location.href = "main.jsp"; // 나중에 main.html로 수정할것
+			}
+		}, true);
+	}
+</script>
