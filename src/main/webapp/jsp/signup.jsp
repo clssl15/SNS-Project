@@ -4,8 +4,7 @@
 <%
 	request.setCharacterEncoding("utf-8");
 	String uid = request.getParameter("id");
-	String upass = request.getParameter("ps");
-	String uname = request.getParameter("name");
+	String jsonstr = request.getParameter("jsonstr");
 	
 	UserDAO dao = new UserDAO();
 	if(dao.exists(uid)){
@@ -13,11 +12,11 @@
 		return;
 	}
 	
-	if(dao.insert(uid, upass, uname)){
-		session.setAttribute("id",uid);
+	if (dao.insert(uid, jsonstr)) {
+		session.setAttribute("id", uid);
 		out.print("OK");
 	}
-	else{
+	else {
 		out.print("ER");
 	}
 %>
